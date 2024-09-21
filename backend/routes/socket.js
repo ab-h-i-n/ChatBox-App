@@ -32,6 +32,10 @@ io.on("connection", (socket) => {
     log(`User with ID: ${socket.id} joined room: ${roomId}`);
   });
 
+  socket.on("send-message", (data) => {
+    io.emit("receive-message", data);
+  });
+
   socket.on("disconnect", () => {
     log("User Disconnected " + socket.id);
     for (const [roomId, users] of Object.entries(roomUsers)) {

@@ -6,8 +6,9 @@ export const GlobalContext = createContext();
 export function GlobalContextProvider({ children }) {
   const [user, setUser] = useState();
   const [socket, setSocket] = useState();
-  const [chat , setChat] = useState();
+  const [chat, setChat] = useState();
   const [roomUsers, setRoomUsers] = useState();
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -19,16 +20,26 @@ export function GlobalContextProvider({ children }) {
       });
 
       skt.on("users_response", (data) => setRoomUsers(data));
+
+      socket.on("receive-message", (data) => {
+        setMessages([...messages , data]);
+      });
     }
   }, [user]);
 
-  useEffect(()=>{
-    console.log(roomUsers);
-    
-  },[roomUsers])
-
   return (
-    <GlobalContext.Provider value={{ user, socket, setUser , chat ,setChat }}>
+    <GlobalContext.Provider
+      value={{
+        user,
+        socket,
+        setUser,
+        chat,
+        setChat,
+        roomUsers,
+        messages,
+        setMessages,
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   );

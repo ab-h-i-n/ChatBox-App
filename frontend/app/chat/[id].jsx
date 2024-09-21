@@ -4,11 +4,14 @@ import { useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
+import Message from "../../components/Message";
+import MessageSender from "../../components/MessageSender";
 
 const ChatPage = () => {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
-  const { chat, socket, user } = useContext(GlobalContext);
+  const { chat, socket, roomUsers, messages } =
+    useContext(GlobalContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -21,16 +24,33 @@ const ChatPage = () => {
   }, [navigation, id]);
 
   useEffect(() => {
-    if (id) {
+    if (id && !roomUsers?.[id].includes(socket?.id)) {
+      console.log(roomUsers);
       socket?.emit("join-room", id);
-      console.log('emmited join- req');
     }
-  }, [id]);
+  }, [id, roomUsers]);
+
+
 
   return (
-    <ScrollView className="bg-primary h-full">
-      <Text>ChatPage</Text>
-    </ScrollView>
+    <View className="bg-primary h-full">
+      <ScrollView className="py-10 h-full">
+        {messages?.length > 0 ? (
+          <>
+            {messages?.map((msg) => (
+              <Message message={msg} key={msg.id} />
+            ))}
+          </>
+        ) : (
+          <>
+            <Text className="text-white font-medium text-center">
+              No Messages!
+            </Text>
+          </>
+        )}
+      </ScrollView>
+      <MessageSender id={id} />
+    </View>
   );
 };
 
