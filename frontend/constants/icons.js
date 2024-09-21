@@ -1,8 +1,7 @@
-import GlobalRoomIcon from '../assets/icons/globe.png';
-import MyRoomIcon from '../assets/icons/user.png';
+import GlobalRoomIcon from "../assets/icons/globe.png";
+import MyRoomIcon from "../assets/icons/user.png";
 
-
-export {
-    GlobalRoomIcon,
-    MyRoomIcon
-}
+export const icons = {
+  GlobalRoomIcon,
+  MyRoomIcon,
+};

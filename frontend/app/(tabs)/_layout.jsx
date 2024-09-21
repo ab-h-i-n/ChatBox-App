@@ -1,21 +1,40 @@
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
+import { icons } from "../../constants/icons";
+import Header from "../../components/Header";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { safeAreaStyle } from "../../styles/styles";
 
-const TabIcon = ({ color , focused , name }) => {
+const TabIcon = ({ focused, name, icon, color }) => {
   return (
-    <View>
-      <Text clasName="text-black">{name}</Text>
+    <View className="items-center gap-1">
+      <Image
+        source={icon}
+        resizeMode="contain"
+        tintColor={color}
+        className={`w-8 h-8 `}
+      />
+      <Text style={{ color: color }} className={`font-bold`}>
+        {name}
+      </Text>
     </View>
   );
 };
 
 const TabsLayout = () => {
   return (
-    <>
+    <SafeAreaView style={{ height: "100%", backgroundColor: "#334756" }}>
+      <Header />
       <Tabs
         screenOptions={{
-          
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: "#ff4c29",
+          tabBarInactiveTintColor: "#082032",
+          tabBarStyle: {
+            backgroundColor: "#334756",
+            height: 80,
+          },
         }}
       >
         <Tabs.Screen
@@ -23,9 +42,14 @@ const TabsLayout = () => {
           options={{
             title: "Global Room",
             headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              <TabIcon color={color} focused={focused} name="Global"/>;
-            },
+            tabBarIcon: ({ focused, color }) => (
+              <TabIcon
+                focused={focused}
+                name="Global"
+                icon={icons.GlobalRoomIcon}
+                color={color}
+              />
+            ),
           }}
         />
         <Tabs.Screen
@@ -33,13 +57,18 @@ const TabsLayout = () => {
           options={{
             title: "My Rooms",
             headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              <TabIcon color={color} focused={focused} name="My Rooms"/>;
-            },
+            tabBarIcon: ({ focused, color }) => (
+              <TabIcon
+                focused={focused}
+                name="My Rooms"
+                icon={icons.MyRoomIcon}
+                color={color}
+              />
+            ),
           }}
         />
       </Tabs>
-    </>
+    </SafeAreaView>
   );
 };
 

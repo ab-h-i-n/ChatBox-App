@@ -2,24 +2,28 @@ import { Text, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../components/Button";
 import InputBox from "../components/InputBox";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useRouter } from "expo-router";
+import { safeAreaStyle } from "../styles/styles";
+import { GlobalContext } from "../context/GlobalContext";
 
 export default function App() {
   const [value, setValue] = useState(null);
   const router = useRouter();
+  const { setUser } = useContext(GlobalContext);
 
   const handleInputChange = (text) => {
     setValue(text);
   };
 
   const handleClick = () => {
-    router.push('/global-room');
-  }
+    setUser(value);
+    router.push("/global-room");
+  };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#082032", height: "100%" }}>
-      <ScrollView >
+    <SafeAreaView style={safeAreaStyle}>
+      <ScrollView>
         <Text className="text-secondary font-bold text-4xl text-center mt-[70%]">
           Chat Box
         </Text>
@@ -30,7 +34,7 @@ export default function App() {
             value={value}
             handleInputChange={handleInputChange}
           />
-          <Button handleClick={handleClick} >Login</Button>
+          <Button handleClick={handleClick}>Login</Button>
         </View>
       </ScrollView>
     </SafeAreaView>
