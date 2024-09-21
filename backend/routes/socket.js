@@ -20,7 +20,7 @@ const io = new Server(server, {
 let roomUsers = {};
 
 io.on("connection", (socket) => {
-  log("User Connected ", socket.id);
+  log("User Connected " + socket.id);
 
   socket.on("join-room", (roomId) => {
     socket.join(roomId);
@@ -30,5 +30,15 @@ io.on("connection", (socket) => {
     };
     io.emit("users_response", roomUsers);
     log(`User with ID: ${socket.id} joined room: ${roomId}`);
+  });
+
+  socket.on("disconnect", () => {
+    log("User Disconnected " + socket.id);
+    for (const [roomId, users] of Object.entries(roomUsers)) {
+      if (users.includes(socket.id)) {
+        roomUsers[roomId] = [...users.filter((id) => id !== socket.id)];
+      }
+    }
+    io.emit("users_response", roomUsers);
   });
 });

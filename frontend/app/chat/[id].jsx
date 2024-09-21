@@ -24,7 +24,6 @@ const ChatPage = () => {
     if (id) {
       socket?.emit("join-room", id);
       console.log('emmited join- req');
-      
     }
   }, [id]);
 
