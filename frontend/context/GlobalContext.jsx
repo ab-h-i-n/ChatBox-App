@@ -21,8 +21,10 @@ export function GlobalContextProvider({ children }) {
 
       skt.on("users_response", (data) => setRoomUsers(data));
 
-      socket.on("receive-message", (data) => {
-        setMessages([...messages , data]);
+      skt.on("receive-message", (data) => {
+        setMessages((prev)=>[...prev , data]);
+        console.log(messages);
+        
       });
     }
   }, [user]);

@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -8,10 +8,10 @@ import Message from "../../components/Message";
 import MessageSender from "../../components/MessageSender";
 
 const ChatPage = () => {
+  const [typing, setTyping] = useState();
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
-  const { chat, socket, roomUsers, messages } =
-    useContext(GlobalContext);
+  const { chat, socket, roomUsers, messages } = useContext(GlobalContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -30,7 +30,11 @@ const ChatPage = () => {
     }
   }, [id, roomUsers]);
 
-
+  useEffect(() => {
+    socket?.on("typing-response", (msg) => {
+      setTyping(msg);
+    });
+  }, []);
 
   return (
     <View className="bg-primary h-full">
@@ -48,6 +52,7 @@ const ChatPage = () => {
             </Text>
           </>
         )}
+        {typing && <Text className="text-white">{typing}</Text>}
       </ScrollView>
       <MessageSender id={id} />
     </View>

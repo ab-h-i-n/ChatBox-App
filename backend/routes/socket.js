@@ -36,6 +36,10 @@ io.on("connection", (socket) => {
     io.emit("receive-message", data);
   });
 
+  socket.on("typing", (msg) => {
+    socket.broadcast.emit("typing-response", msg);
+  });
+
   socket.on("disconnect", () => {
     log("User Disconnected " + socket.id);
     for (const [roomId, users] of Object.entries(roomUsers)) {

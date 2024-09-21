@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import React, { useContext, useState } from "react";
 import { icons } from "../constants/icons";
 import { GlobalContext } from "../context/GlobalContext";
+import uuid from 'react-native-uuid';
 
 const MessageSender = ({ id }) => {
   const [msg, setMsg] = useState();
@@ -11,8 +12,17 @@ const MessageSender = ({ id }) => {
     socket.emit("send-message" , {
         msg : msg,
         roomId : id,
-        user : user
+        user : user,
+        time : Date.now(),
+        id : uuid.v4(),
+        socketId : socket.id
     })
+    setMsg("");
+  }
+
+  const handleTyping = (text) => {
+    setMsg(text);
+    socket.emit("typing" , text ? user + " is typing..." : "" );
   }
 
   return (
@@ -21,7 +31,7 @@ const MessageSender = ({ id }) => {
         className="bg-teritiary flex-1 py-3 px-5 rounded-full border-[1px] border-white/20 text-white"
         value={msg}
         placeholder={"Message"}
-        onChangeText={(text) => setMsg(text)}
+        onChangeText={handleTyping}
         placeholderTextColor={"#b7b8ba"}
       />
       <TouchableOpacity onPress={handleMsgSend} className="bg-secondary rounded-full w-[50px] h-[50px] justify-center items-center">
