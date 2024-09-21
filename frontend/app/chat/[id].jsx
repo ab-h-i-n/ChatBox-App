@@ -38,7 +38,7 @@ const ChatPage = () => {
 
   return (
     <View className="bg-primary h-full">
-      <ScrollView className="py-10 h-full">
+      <ScrollView className=" mb-5 h-full">
         {messages?.length > 0 ? (
           <>
             {messages?.map((msg) => (
@@ -47,12 +47,12 @@ const ChatPage = () => {
           </>
         ) : (
           <>
-            <Text className="text-white font-medium text-center">
+            <Text className="text-white font-medium text-center mt-3">
               No Messages!
             </Text>
           </>
         )}
-        {typing && <Text className="text-white">{typing}</Text>}
+        {typing && <Text className="text-white/70 ml-3">{typing}</Text>}
       </ScrollView>
       <MessageSender id={id} />
     </View>

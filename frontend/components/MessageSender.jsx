@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { icons } from "../constants/icons";
 import { GlobalContext } from "../context/GlobalContext";
 import uuid from 'react-native-uuid';
@@ -22,8 +22,11 @@ const MessageSender = ({ id }) => {
 
   const handleTyping = (text) => {
     setMsg(text);
-    socket.emit("typing" , text ? user + " is typing..." : "" );
   }
+
+  useEffect(()=>{
+    socket.emit("typing" , msg ? user + " is typing..." : "" );
+  },[msg])
 
   return (
     <View className="flex-row justify-between gap-3 mx-3 fixed bottom-3 left-0">
