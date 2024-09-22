@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
 import Message from "../../components/Message";
@@ -64,9 +63,9 @@ const ChatPage = () => {
   }, [typing, messages]);
 
   return (
-    <View className="bg-primary h-full">
+    <View className="bg-primary h-full gap-2">
       <ScrollView
-        className="mb-5 h-full"
+        className="h-full"
         ref={scrollViewRef}
         onContentSizeChange={() => handleScrollIntoView()}
       >
@@ -78,7 +77,7 @@ const ChatPage = () => {
           </>
         ) : (
           <>
-            <Text className="text-white font-medium text-center mt-3">
+            <Text className="text-white font-medium text-center">
               No Messages!
             </Text>
           </>

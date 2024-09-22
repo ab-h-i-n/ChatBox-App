@@ -2,11 +2,13 @@ import React, { useContext, useEffect } from "react";
 import "../global.css";
 import { GlobalContextProvider, GlobalContext } from "../context/GlobalContext";
 import { Stack, useRouter } from "expo-router";
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 
 export default RootLayout = () => {
   return (
     <GlobalContextProvider>
-      <Layout></Layout>
+      <Layout/>
     </GlobalContextProvider>
   );
 };

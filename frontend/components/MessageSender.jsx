@@ -29,7 +29,7 @@ const MessageSender = ({ id }) => {
   },[msg])
 
   return (
-    <View className="flex-row justify-between gap-3 mx-3 fixed bottom-3 left-0 w-[calc(100%-24px)]">
+    <View className="flex-row justify-between gap-3 mx-3 mb-2 w-[calc(100%-24px)]">
       <TextInput
         className="bg-teritiary flex-1 py-3 px-5 rounded-full border-[1px] border-white/20 text-white"
         value={msg}
