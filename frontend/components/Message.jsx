@@ -3,7 +3,8 @@ import { Text, View } from "react-native";
 import { GlobalContext } from "../context/GlobalContext";
 
 const Message = ({ message }) => {
-  const { socket } = useContext(GlobalContext);
+  
+  const { user } = useContext(GlobalContext);
 
   return (
     <View className="my-2">
@@ -15,19 +16,19 @@ const Message = ({ message }) => {
         <>
           <View
             className={`${
-              message.socketId === socket?.id
+              message?.user === user
                 ? "bg-secondary ml-auto mr-3"
                 : "bg-teritiary ml-3 mr-auto"
             } py-3 px-4 rounded-xl`}
           >
             <Text
               className={`${
-                message.socketId === socket?.id ? "ml-auto" : ""
+                message?.user === user ? "ml-auto" : ""
               } text-white font-bold mb-1`}
             >
-              {message.socketId === socket?.id ? "You" : message.user}
+              {message?.user === user ? "You" : message?.user}
             </Text>
-            <Text className="text-white">{message.msg}</Text>
+            <Text className="text-white">{message?.msg}</Text>
           </View>
         </>
       )}

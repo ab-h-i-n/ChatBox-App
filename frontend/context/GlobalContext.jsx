@@ -57,6 +57,7 @@ export function GlobalContextProvider({ children }) {
 
   const handleLogOut = async () => {
     await AsyncStorage.removeItem("user");
+    await AsyncStorage.removeItem("messages");
     setUser(null);
     setMessages([]);
     setRoomUsers({});
@@ -64,9 +65,39 @@ export function GlobalContextProvider({ children }) {
     socket?.disconnect();
     setSocket(null);
     router.push("/");
-    console.log('logoout');
-    
+    console.log("logoout");
   };
+
+  useEffect(() => {
+    const saveMessages = async () => {
+      await AsyncStorage.setItem("messages", JSON.stringify(messages));
+    };
+    if (messages.length > 0) {
+      saveMessages();
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    const getSavedMessages = async () => {
+      const msgs = await AsyncStorage.getItem("messages");
+      if (msgs) {
+        setMessages(JSON.parse(msgs));
+      }
+    };
+
+    getSavedMessages();
+  }, []);
+
+  useEffect(() => {
+    const getSavedUser = async () => {
+      const usr = await AsyncStorage.getItem("user");
+      if (usr) {
+        setUser(usr);
+      }
+    };
+
+    getSavedUser();
+  }, []);
 
   return (
     <GlobalContext.Provider
