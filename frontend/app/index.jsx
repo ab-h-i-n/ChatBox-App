@@ -8,7 +8,7 @@ import { safeAreaStyle } from "../styles/styles";
 import { GlobalContext } from "../context/GlobalContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function App() {
+export default function Login() {
   const [value, setValue] = useState("");
   const router = useRouter();
   const { setUser } = useContext(GlobalContext);
@@ -21,8 +21,7 @@ export default function App() {
     try {
       setUser(value);
       await AsyncStorage.setItem("user", value);
-      router.push("/global-room");
-
+      router.replace("/global-room"); 
     } catch (error) {
       console.error("Failed to save auth status", error);
     }

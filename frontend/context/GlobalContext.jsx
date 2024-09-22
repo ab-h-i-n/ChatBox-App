@@ -1,29 +1,36 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 export const GlobalContext = createContext();
 
+export const getAuthStatus = async () => {
+  try {
+    const token = await AsyncStorage.getItem("user");
+    console.log("isLogged in : " + (token !== null));
+    return token !== null;
+  } catch (error) {
+    console.error("Error retrieving auth status", error);
+    return false;
+  }
+};
+
 export function GlobalContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [socket, setSocket] = useState(null);
   const [chat, setChat] = useState(null);
-  const [roomUsers, setRoomUsers] = useState([]);
+  const [roomUsers, setRoomUsers] = useState({});
   const [messages, setMessages] = useState([]);
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const getAuthStatus = async () => {
-      try {
-        const token = await AsyncStorage.getItem("authToken");
-        setLoggedIn(token !== null);
-      } catch (error) {
-        console.error("Error retrieving auth status", error);
-        setLoggedIn(false);
-      }
+    const IsUserLoggedIn = async () => {
+      const isLogged = await getAuthStatus();
+      setLoggedIn(isLogged);
     };
-
-    getAuthStatus();
+    IsUserLoggedIn();
   }, [user]);
 
   useEffect(() => {
@@ -48,6 +55,19 @@ export function GlobalContextProvider({ children }) {
     }
   }, [user]);
 
+  const handleLogOut = async () => {
+    await AsyncStorage.removeItem("user");
+    setUser(null);
+    setMessages([]);
+    setRoomUsers({});
+    setChat(null);
+    socket?.disconnect();
+    setSocket(null);
+    router.push("/");
+    console.log('logoout');
+    
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -60,6 +80,7 @@ export function GlobalContextProvider({ children }) {
         messages,
         setMessages,
         isLoggedIn,
+        handleLogOut,
       }}
     >
       {children}

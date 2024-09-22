@@ -12,13 +12,15 @@ import { useNavigation } from "@react-navigation/native";
 import { GlobalContext } from "../../context/GlobalContext";
 import Message from "../../components/Message";
 import MessageSender from "../../components/MessageSender";
+import uuid from 'react-native-uuid';
+
 
 const ChatPage = () => {
   const [typing, setTyping] = useState();
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
-  const { chat, socket, roomUsers, messages } = useContext(GlobalContext);
-  const scrollViewRef = useRef(); 
+  const { chat, socket, roomUsers, messages, user } = useContext(GlobalContext);
+  const scrollViewRef = useRef();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,6 +36,14 @@ const ChatPage = () => {
     if (id && !roomUsers?.[id]?.includes(socket?.id)) {
       console.log(roomUsers);
       socket?.emit("join-room", id);
+      socket?.emit("send-message", {
+        msg : `${user} has joined the room`,
+        roomId: id,
+        user: user,
+        time: Date.now(),
+        id: uuid.v4(),
+        socketId: 'join',
+      });
     }
   }, [id, roomUsers]);
 
