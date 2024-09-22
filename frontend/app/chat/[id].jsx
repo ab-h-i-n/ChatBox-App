@@ -1,5 +1,11 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -12,6 +18,7 @@ const ChatPage = () => {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
   const { chat, socket, roomUsers, messages } = useContext(GlobalContext);
+  const scrollViewRef = useRef(); 
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -24,7 +31,7 @@ const ChatPage = () => {
   }, [navigation, id]);
 
   useEffect(() => {
-    if (id && !roomUsers?.[id].includes(socket?.id)) {
+    if (id && !roomUsers?.[id]?.includes(socket?.id)) {
       console.log(roomUsers);
       socket?.emit("join-room", id);
     }
@@ -36,9 +43,23 @@ const ChatPage = () => {
     });
   }, []);
 
+  const handleScrollIntoView = () => {
+    scrollViewRef.current.scrollToEnd({ animated: true });
+  };
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      handleScrollIntoView();
+    }
+  }, [typing, messages]);
+
   return (
     <View className="bg-primary h-full">
-      <ScrollView className=" mb-5 h-full">
+      <ScrollView
+        className="mb-5 h-full"
+        ref={scrollViewRef}
+        onContentSizeChange={() => handleScrollIntoView()}
+      >
         {messages?.length > 0 ? (
           <>
             {messages?.map((msg) => (

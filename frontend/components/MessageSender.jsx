@@ -5,11 +5,11 @@ import { GlobalContext } from "../context/GlobalContext";
 import uuid from 'react-native-uuid';
 
 const MessageSender = ({ id }) => {
-  const [msg, setMsg] = useState();
+  const [msg, setMsg] = useState("");
   const { socket , user } = useContext(GlobalContext);
 
   const handleMsgSend = () => {
-    socket.emit("send-message" , {
+    socket?.emit("send-message" , {
         msg : msg,
         roomId : id,
         user : user,
@@ -25,11 +25,11 @@ const MessageSender = ({ id }) => {
   }
 
   useEffect(()=>{
-    socket.emit("typing" , msg ? user + " is typing..." : "" );
+    socket?.emit("typing" , msg ? user + " is typing..." : "" );
   },[msg])
 
   return (
-    <View className="flex-row justify-between gap-3 mx-3 fixed bottom-3 left-0">
+    <View className="flex-row justify-between gap-3 mx-3 fixed bottom-3 left-0 w-[calc(100%-24px)]">
       <TextInput
         className="bg-teritiary flex-1 py-3 px-5 rounded-full border-[1px] border-white/20 text-white"
         value={msg}
@@ -41,7 +41,10 @@ const MessageSender = ({ id }) => {
         <Image
           source={icons.SendIcon}
           alt="send"
-          className="w-8 h-8"
+          style={{
+            width : 32,
+            height : 32
+          }}
           tintColor={"white"}
         />
       </TouchableOpacity>

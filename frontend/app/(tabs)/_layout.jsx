@@ -4,7 +4,6 @@ import { Tabs } from "expo-router";
 import { icons } from "../../constants/icons";
 import Header from "../../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { safeAreaStyle } from "../../styles/styles";
 
 const TabIcon = ({ focused, name, icon, color }) => {
   return (
@@ -13,9 +12,12 @@ const TabIcon = ({ focused, name, icon, color }) => {
         source={icon}
         resizeMode="contain"
         tintColor={color}
-        className={`w-8 h-8 `}
+        style={{
+          width : 32,
+          height : 32
+        }}
       />
-      <Text style={{ color: color }} className={`font-bold`}>
+      <Text style={{ color: color }} className={`font-bold text-nowrap`}>
         {name}
       </Text>
     </View>
