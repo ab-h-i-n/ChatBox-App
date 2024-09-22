@@ -1,8 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import "../global.css";
 import { GlobalContextProvider, GlobalContext } from "../context/GlobalContext";
-import Login from "./index.jsx";
-import TabsLayout from "./(tabs)/_layout.jsx";
 import { Stack, useRouter } from "expo-router";
 
 export default RootLayout = () => {

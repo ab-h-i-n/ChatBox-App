@@ -2,7 +2,9 @@
   "expo": {
     "name": "chatBox",
     "slug": "chatBox",
-    "scheme": ["chatbox"],
+    "scheme": [
+      "chatbox"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,14 +15,16 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.abhin.chatBox"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.abhin.chatBox"
+      "package": "com.abhin.chatBox",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
