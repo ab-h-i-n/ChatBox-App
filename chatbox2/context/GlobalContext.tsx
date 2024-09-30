@@ -13,6 +13,7 @@ export type GlobalContextType = {
   setMessages: React.Dispatch<React.SetStateAction<any[]>>;
   isLoggedIn: boolean;
   handleLogOut: () => Promise<void>;
+  isSocketConnected : boolean;
 }
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -28,12 +29,13 @@ export const getAuthStatus = async () => {
   }
 };
 
-export function GlobalContextProvider({ children } : { children : any }) {
+export function GlobalContextProvider({ children }: { children: any }) {
   const [user, setUser] = useState("");
   const [chat, setChat] = useState(null);
   const [roomUsers, setRoomUsers] = useState({});
   const [messages, setMessages] = useState<any[]>([]);
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isSocketConnected, setSocketConnected] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -49,6 +51,7 @@ export function GlobalContextProvider({ children } : { children : any }) {
 
       socket.on("connect", () => {
         console.log(`User Connected ${socket.id}`);
+        setSocketConnected(true);
       });
 
       socket.on("users_response", (data) => setRoomUsers(data));
@@ -119,6 +122,7 @@ export function GlobalContextProvider({ children } : { children : any }) {
         setMessages,
         isLoggedIn,
         handleLogOut,
+        isSocketConnected
       }}
     >
       {children}
