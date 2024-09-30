@@ -1,16 +1,16 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
-import { GlobalContext, GlobalContextType } from '@/context/GlobalContext'
+import { AuthContext } from '@/context/AuthContext'
+
 
 const GlobalRoom = () => {
 
-  const context = useContext(GlobalContext) as GlobalContextType;
-  const { handleLogOut } = context;
+  const { handleLogout , user } = useContext(AuthContext);
 
   return (
     <View>
-      <Text>GlobalRoom</Text>
-      <TouchableOpacity onPress={handleLogOut}><Text>Log Out</Text></TouchableOpacity>
+      <Text>USER : {user ?? "User not found!"}</Text>
+      <TouchableOpacity onPress={handleLogout}><Text>Log Out</Text></TouchableOpacity>
     </View>
   )
 }

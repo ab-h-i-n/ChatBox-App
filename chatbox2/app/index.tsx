@@ -1,49 +1,43 @@
-import { Text, View } from "react-native";
+import Button from "@/components/Button";
+import InputBox from "@/components/InputBox";
+import { AuthContext } from "@/context/AuthContext";
+import { useContext, useRef, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext, useEffect, useState } from "react";
-import NetInfo from '@react-native-community/netinfo';
-import { GlobalContext, GlobalContextType } from "@/context/GlobalContext";
 
-export default function Index() {
+export default function LogInPage() {
+  const [userName, setUserName] = useState('');
+  const { handleLogin } = useContext(AuthContext);
 
-  const [isConnected, setConnected] = useState(false);
-  const [type, setType] = useState<string | null>(null); 
+  const handleLoginUser = () => {
+    if (handleLogin) {
+      handleLogin(userName);
+    }
+  }
 
-  const context = useContext(GlobalContext) as GlobalContextType;
-
-
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      setType(state.type);
-      setConnected(state.isInternetReachable || false);
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
-    });
-
-    return () => {
-      unsubscribe(); 
-    };
-  }, []);
+  const handleUserInput = (text : any) => {
+    setUserName(text);
+  }
 
 
   return (
-    <SafeAreaView className="h-full">
-      <View className="flex-1 items-center justify-center bg-red-500">
-        <Text className="text-4xl font-semibold text-white">Edit app/index.tsx to edit this screen.</Text>
-        {
-          context.isSocketConnected ? (
-            <Text className="text-4xl font-semibold text-green-500">Connected to socket</Text>
-          ) : (
-            <Text className="text-4xl font-semibold text-yellow-500">Not connected to socket</Text>
-          )
-        }
-        <Text className="text-2xl font-medium text-white mt-4">
-          Connection Type: {type ?? 'Unknown'}
-        </Text>
-        <Text className="text-2xl font-medium text-white mt-2">
-          Status: {isConnected ? 'Online' : 'Offline'}
-        </Text>
-      </View>
+    <SafeAreaView className="bg-primary">
+      <ScrollView contentContainerStyle={{ height: "100%" }}>
+        <View className="justify-center h-full">
+          <Text className="text-secondary font-bold text-4xl text-center ">
+            Chat Box
+          </Text>
+          <View className="items-center justify-center mt-10">
+            <InputBox
+              label={"Username"}
+              placeholder={"Enter your username"}
+              value={userName}
+              onChange={handleUserInput}
+            />
+            <Button containerClass="mt-3" onClick={handleLoginUser}>Login</Button>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

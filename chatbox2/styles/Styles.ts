@@ -1,1 +1,0 @@
-export const safeAreaStyle = { backgroundColor: "#082032", height: "100%" }
