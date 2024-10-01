@@ -2,9 +2,9 @@
 import { createContext } from "react";
 import { SocketContextProvider } from "./SocketContext";
 import { AuthContextProvider } from "./AuthContext";
+import { ChatContextProvider } from "./ChatContext";
 
 export const GlobalContext = createContext({});
-
 
 export function GlobalContextProvider({ children }: { children: any }) {
   return (
@@ -13,7 +13,9 @@ export function GlobalContextProvider({ children }: { children: any }) {
     >
       <SocketContextProvider>
         <AuthContextProvider>
-          {children}
+          <ChatContextProvider>
+            {children}
+          </ChatContextProvider>
         </AuthContextProvider>
       </SocketContextProvider>
     </GlobalContext.Provider>

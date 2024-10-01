@@ -1,21 +1,27 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useContext } from 'react'
-import { AuthContext } from '@/context/AuthContext'
-import { SocketContext } from '@/context/SocketContext';
-
+import { Text, ScrollView } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import RoomCard from "../../components/RoomCard";
+import { ChatContext } from "@/context/ChatContext";
 
 const GlobalRoom = () => {
 
-  const { handleLogout , user } = useContext(AuthContext);
-  const { isSocketOn } = useContext(SocketContext);
+  const { globalRooms } = useContext(ChatContext);
 
   return (
-    <View>
-      <Text>USER : {user ?? "User not found!"}</Text>
-      <Text>Is Socket On : {isSocketOn ? "Socket is on!" : 'Socket is off!'}</Text>
-      <TouchableOpacity onPress={handleLogout}><Text>Log Out</Text></TouchableOpacity>
-    </View>
-  )
-}
+    <ScrollView className="bg-primary">
+      {globalRooms ? (
+        <>
+          {globalRooms?.map((room) => (
+            <RoomCard key={room.id} id={room.id} title={room.title} />
+          ))}
+        </>
+      ) : (
+        <>
+          <Text className="text-white font-semibold text-center mt-5">Loading...</Text>
+        </>
+      )}
+    </ScrollView>
+  );
+};
 
-export default GlobalRoom
+export default GlobalRoom;
