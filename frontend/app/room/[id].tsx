@@ -8,8 +8,8 @@ import React, {
 } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
-import Message from "../../components/Message";
-import MessageSender from "../../components/MessageSender";
+import Message from "../../components/common/Message";
+import MessageSender from "../../components/common/MessageSender";
 import uuid from 'react-native-uuid';
 import { socket } from "@/utils/Socket";
 import { AuthContext } from "@/context/AuthContext";

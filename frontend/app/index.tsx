@@ -1,5 +1,5 @@
-import Button from "@/components/Button";
-import InputBox from "@/components/InputBox";
+import Button from "@/components/common/Button";
+import InputBox from "@/components/common/InputBox";
 import { AuthContext } from "@/context/AuthContext";
 import { useContext, useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
@@ -15,7 +15,7 @@ export default function LogInPage() {
     }
   }
 
-  const handleUserInput = (text : any) => {
+  const handleUserInput = (text: any) => {
     setUserName(text);
   }
 

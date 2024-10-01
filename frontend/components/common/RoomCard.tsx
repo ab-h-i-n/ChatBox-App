@@ -12,7 +12,7 @@ const RoomCard = ({ title, id }: { title: string, id: string }) => {
       title,
       id
     })
-    router.push(`/chat/${id}`);
+    router.push(`/room/${id}`);
   };
 
   return (

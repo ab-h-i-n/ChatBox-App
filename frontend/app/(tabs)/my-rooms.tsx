@@ -1,13 +1,14 @@
 import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
+import CreateRoomButton from '@/components/myrooms/CreateRoomButton'
 
 const MyRooms = () => {
     return (
-        <ScrollView className="bg-primary">
-            <View>
-                <Text>My Rooms</Text>
-            </View>
-        </ScrollView>
+        <View className="bg-primary h-full">
+
+            <CreateRoomButton />
+
+        </View>
     )
 }
 

@@ -1,7 +1,7 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
-import Header from "../../components/Header";
+import Header from "../../components/common/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Icons } from "@/constants/Icons";
 
@@ -50,7 +50,7 @@ const TabsLayout = () => {
           options={{
             title: "Global Room",
             headerShown: false,
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({ color }: { color: string }) => (
               <TabIcon
                 name="Global"
                 icon={Icons.GlobalRoomIcon}
@@ -64,7 +64,7 @@ const TabsLayout = () => {
           options={{
             title: "My Rooms",
             headerShown: false,
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({ color }: { color: string }) => (
               <TabIcon
                 name="My Rooms"
                 icon={Icons.MyRoomIcon}

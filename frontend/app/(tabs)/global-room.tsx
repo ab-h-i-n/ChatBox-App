@@ -1,6 +1,6 @@
 import { Text, ScrollView } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import RoomCard from "../../components/RoomCard";
+import React, { useContext } from "react";
+import RoomCard from "../../components/common/RoomCard";
 import { ChatContext } from "@/context/ChatContext";
 
 const GlobalRoom = () => {
