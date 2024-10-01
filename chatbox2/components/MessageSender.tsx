@@ -4,24 +4,29 @@ import uuid from 'react-native-uuid';
 import { Icons } from "@/constants/Icons";
 import { AuthContext } from "@/context/AuthContext";
 import { socket } from "@/utils/Socket";
+import { log } from "@/utils/log";
 
-const MessageSender = ({ roomId } : { roomId : string }) => {
+const MessageSender = ({ roomId }: { roomId: string }) => {
   const [msg, setMsg] = useState("");
   const { user } = useContext(AuthContext);
 
   const handleMsgSend = () => {
-    socket?.emit("send-message", {
+
+    const messageData = {
       msg: msg,
       roomId: roomId,
       user: user,
       time: Date.now(),
       id: uuid.v4(),
       socketId: socket.id
-    })
+    }
+
+    socket?.emit("send-message", messageData);
+    log("Message sending : " + JSON.stringify(messageData))
     setMsg("");
   }
 
-  const handleTyping = (text : string) => {
+  const handleTyping = (text: string) => {
     setMsg(text);
   }
 

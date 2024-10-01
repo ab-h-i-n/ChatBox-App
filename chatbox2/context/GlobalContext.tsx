@@ -11,13 +11,15 @@ export function GlobalContextProvider({ children }: { children: any }) {
     <GlobalContext.Provider
       value={{}}
     >
-      <SocketContextProvider>
-        <AuthContextProvider>
-          <ChatContextProvider>
+      <ChatContextProvider>
+        <SocketContextProvider>
+          <AuthContextProvider>
+
             {children}
-          </ChatContextProvider>
-        </AuthContextProvider>
-      </SocketContextProvider>
+
+          </AuthContextProvider>
+        </SocketContextProvider>
+      </ChatContextProvider>
     </GlobalContext.Provider>
   );
 }

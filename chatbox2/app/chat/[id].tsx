@@ -14,6 +14,7 @@ import uuid from 'react-native-uuid';
 import { socket } from "@/utils/Socket";
 import { AuthContext } from "@/context/AuthContext";
 import { ChatContext } from "@/context/ChatContext";
+import { log } from "@/utils/log";
 
 
 const ChatPage = () => {
@@ -36,7 +37,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     if (id && !roomUsers?.[id]?.includes(socket?.id)) {
-      console.log(roomUsers);
+      log(roomUsers);
       socket?.emit("join-room", id);
       socket?.emit("send-message", {
         msg: `${user} has joined the room`,
