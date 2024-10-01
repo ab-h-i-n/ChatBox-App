@@ -9,7 +9,7 @@ const GlobalRoom = () => {
 
   return (
     <ScrollView className="bg-primary">
-      {globalRooms ? (
+      {globalRooms.length > 0 ? (
         <>
           {globalRooms?.map((room) => (
             <RoomCard key={room.id} id={room.id} title={room.title} />

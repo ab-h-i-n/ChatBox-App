@@ -1,6 +1,7 @@
+import { DEBUG } from "@/env";
 
 export const log = (message: any) => {
-    if (process.env.EXPO_PUBLIC_DEBUG === "TRUE") {
+    if (DEBUG === "TRUE") {
         console.log(message);
     }
 }

@@ -1,10 +1,17 @@
 import { Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import { useContext } from "react";
+import { ChatContext } from "@/context/ChatContext";
 
-const RoomCard = ({ title, id } : { title : string , id : string }) => {
+const RoomCard = ({ title, id }: { title: string, id: string }) => {
   const router = useRouter();
+  const { setChat } = useContext(ChatContext);
 
   const handleRoomClick = () => {
+    setChat({
+      title,
+      id
+    })
     router.push(`/chat/${id}`);
   };
 
