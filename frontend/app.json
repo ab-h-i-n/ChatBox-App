@@ -24,7 +24,8 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.abhin.chatBox",
-      "versionCode": 1
+      "versionCode": 1,
+      "cleartextTraffic": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
