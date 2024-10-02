@@ -10,11 +10,11 @@ const ROOMS = [
 ];
 
 const UserRooms = [
-  {
-    title: "Room 1",
-    id: "2",
-    members: ["Abhin"],
-  },
+  // {
+  //   title: "Room 1",
+  //   id: "2",
+  //   members: ["Abhin"],
+  // },
 ];
 
 router.get("/", (req, res) => {
