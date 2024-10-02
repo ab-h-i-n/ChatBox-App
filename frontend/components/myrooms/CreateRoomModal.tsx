@@ -5,9 +5,18 @@ import { log } from '@/utils/log';
 import uuid from 'react-native-uuid';
 import Button from '../common/Button';
 import { ModalContext } from '@/context/ModalContext';
+import { API_URL } from '@/env';
+import { AuthContext } from '@/context/AuthContext';
+import { ChatContext } from '@/context/ChatContext';
 
 const CreateRoomModal = () => {
+    const { user } = useContext(AuthContext);
     const { isModalOpen, setModalOpen } = useContext(ModalContext);
+    const { fetchMyRooms } = useContext(ChatContext);
+    const [isLoading , setLoading] = useState({
+        create : false,
+        join : false
+    })
     const [isJoin, setJoin] = useState(false);
     const [room, setRoom] = useState({
         title: '',
@@ -28,9 +37,33 @@ const CreateRoomModal = () => {
         setRoom((prev) => ({ ...prev, title: roomName }));
     };
 
-    const handleCreateRoom = () => {
+    const handleCreateRoom = async() => {
         log(room);
+        setLoading((prev)=>({...prev,create : true}));
+
+        try {
+            
+            const response = await fetch(`${API_URL}/rooms/user/${user}` , {
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({
+                    roomId : room.id,
+                    roomTitle : room.title
+                })
+            })
+
+            const res = await response.json();
+
+            log( "created room" + JSON.stringify(res));
+
+        } catch (error) {
+            console.error(error);
+        }
+        fetchMyRooms();
         setModalOpen('createRoomModal', false);
+        setLoading((prev)=>({...prev,create : false}));
     };
 
     const handleJoinRoom = () => {
@@ -39,6 +72,8 @@ const CreateRoomModal = () => {
 
     const handleModalClose = () => {
         setModalOpen('createRoomModal', false);
+        setLoading((prev)=>({...prev,create : false}));
+
     }
 
     if (!isModalOpen.createRoomModal) return null;
@@ -71,7 +106,7 @@ const CreateRoomModal = () => {
                                 onChange={handleInput}
                             />
 
-                            <Button onClick={handleCreateRoom} containerClass="mt-5">
+                            <Button disabled={isLoading.create} onClick={handleCreateRoom} containerClass="mt-5">
                                 Create
                             </Button>
                         </>
@@ -84,7 +119,7 @@ const CreateRoomModal = () => {
                                 onChange={handleInput}
                             />
 
-                            <Button onClick={handleJoinRoom} containerClass="mt-5">
+                            <Button disabled={isLoading.join} onClick={handleJoinRoom} containerClass="mt-5">
                                 Join
                             </Button>
                         </>

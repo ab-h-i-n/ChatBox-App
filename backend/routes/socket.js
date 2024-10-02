@@ -6,6 +6,7 @@ import log from "../utils/log.js";
 
 export const app = express();
 app.use(cors());
+app.use(express.json());
 
 export const server = http.createServer(app);
 

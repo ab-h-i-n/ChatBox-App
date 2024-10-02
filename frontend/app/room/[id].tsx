@@ -23,6 +23,7 @@ const ChatPage = () => {
   const navigation = useNavigation();
   const { user } = useContext(AuthContext);
   const { chat, roomUsers, messages } = useContext(ChatContext);
+  const [ thisMessages , setThisMessages ] = useState<any[]>([]);
   const scrollViewRef = useRef<ScrollView>(null);
 
   useLayoutEffect(() => {
@@ -37,7 +38,6 @@ const ChatPage = () => {
 
   useEffect(() => {
     if (id && !roomUsers?.[id]?.includes(socket?.id)) {
-      log(roomUsers);
       socket?.emit("join-room", id);
       socket?.emit("send-message", {
         msg: `${user} has joined the room`,
@@ -66,15 +66,20 @@ const ChatPage = () => {
     }
   }, [typing, messages]);
 
+  useEffect(()=>{
+    const thisRoomMessages = messages.filter((msgs) => msgs.roomId == id);
+    setThisMessages(thisRoomMessages);
+  },[messages])
+
   return (
     <View className="bg-primary h-full gap-x-2">
       <ScrollView
         ref={scrollViewRef}
         onContentSizeChange={() => handleScrollIntoView()}
       >
-        {messages?.length > 0 ? (
+        {thisMessages?.length > 0 ? (
           <>
-            {messages?.map((msg) => (
+            {thisMessages?.map((msg) => (
               <Message message={msg} key={msg.id} />
             ))}
           </>

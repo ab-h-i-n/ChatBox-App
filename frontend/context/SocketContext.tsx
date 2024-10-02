@@ -13,19 +13,12 @@ export const SocketContext = createContext<SocketContextTypes>({});
 export const SocketContextProvider = ({ children }: { children: any }) => {
 
     const [isSocketOn, setSocketOn] = useState(false);
-    const { setMessages, setRoomUsers } = useContext(ChatContext);
 
     useEffect(() => {
 
         socket.on('connect', () => {
             setSocketOn(true);
             log("Socket connected! " + socket.id)
-        });
-        
-        socket.on("users_response", (data) => setRoomUsers(data));
-
-        socket.on("receive-message", (data) => {
-            setMessages((prev) => [...prev, data]);
         });
 
         return () => {
