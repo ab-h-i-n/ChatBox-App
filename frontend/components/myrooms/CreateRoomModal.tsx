@@ -33,8 +33,12 @@ const CreateRoomModal = () => {
         }
     }, [isModalOpen?.createRoomModal]);
 
-    const handleInput = (roomName: string) => {
+    const handleInput = (roomName: string ) => {
         setRoom((prev) => ({ ...prev, title: roomName }));
+    };
+
+    const handleInputID = (roomName: string) => {
+        setJoinRoom((prev) => ({ ...prev, id: roomName }));
     };
 
     const handleCreateRoom = async() => {
@@ -63,11 +67,42 @@ const CreateRoomModal = () => {
         }
         fetchMyRooms();
         setModalOpen('createRoomModal', false);
+        setRoom({
+            id : '',
+            title : ''
+        })
         setLoading((prev)=>({...prev,create : false}));
     };
 
-    const handleJoinRoom = () => {
+    const handleJoinRoom = async() => {
         log(room);
+        setLoading((prev)=>({...prev,join : true}));
+
+        try {
+            
+            const response = await fetch(`${API_URL}/rooms/user/join/${user}` , {
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({
+                    roomId : joinRoom.id
+                })
+            })
+
+            const res = await response.json();
+
+            log( "joinded room" + JSON.stringify(res));
+
+        } catch (error) {
+            console.error(error);
+        }
+        fetchMyRooms();
+        setModalOpen('createRoomModal', false);
+        setJoinRoom({
+            id : ''
+        })
+        setLoading((prev)=>({...prev,join : false}));
     }
 
     const handleModalClose = () => {
@@ -116,7 +151,7 @@ const CreateRoomModal = () => {
                                 label="Room ID"
                                 placeholder="Enter room id"
                                 value={joinRoom.id}
-                                onChange={handleInput}
+                                onChange={handleInputID}
                             />
 
                             <Button disabled={isLoading.join} onClick={handleJoinRoom} containerClass="mt-5">

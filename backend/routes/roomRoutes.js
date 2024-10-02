@@ -43,10 +43,6 @@ router.post("/user/:id", (req, res) => {
     id: roomId,
     members: [userId],
   };
-
-  console.log(roomData);
-  
-
   UserRooms.push(roomData);
 
   res.status(201).json(roomData);
@@ -56,7 +52,6 @@ router.post("/user/:id", (req, res) => {
 router.post("/user/join/:id", (req, res) => {
   const userId = req.params.id;
   const { roomId } = req.body;
-
   const room = UserRooms.find((room) => room.id == roomId);
 
   if (room) {

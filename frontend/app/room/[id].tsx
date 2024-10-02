@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Button, TouchableOpacity, Image } from "react-native";
 import React, {
   useContext,
   useEffect,
@@ -14,7 +14,8 @@ import uuid from 'react-native-uuid';
 import { socket } from "@/utils/Socket";
 import { AuthContext } from "@/context/AuthContext";
 import { ChatContext } from "@/context/ChatContext";
-import { log } from "@/utils/log";
+import * as Clipboard from 'expo-clipboard';
+import { Icons } from "@/constants/Icons";
 
 
 const ChatPage = () => {
@@ -23,7 +24,7 @@ const ChatPage = () => {
   const navigation = useNavigation();
   const { user } = useContext(AuthContext);
   const { chat, roomUsers, messages } = useContext(ChatContext);
-  const [ thisMessages , setThisMessages ] = useState<any[]>([]);
+  const [thisMessages, setThisMessages] = useState<any[]>([]);
   const scrollViewRef = useRef<ScrollView>(null);
 
   useLayoutEffect(() => {
@@ -33,8 +34,28 @@ const ChatPage = () => {
         backgroundColor: "#334756",
       },
       headerTintColor: "#fff",
+      headerRight: () => {
+        if (id == '1') return null
+
+        return (
+          <TouchableOpacity onPress={handleCopy}>
+            <Image
+              source={Icons.ShareIcon}
+              style={{
+                width: 35,
+                height: 35
+              }}
+              tintColor={'#ff4c29'}
+            />
+          </TouchableOpacity>
+        )
+      },
     });
-  }, [navigation, id]);
+  }, [navigation, chat]);
+
+  const handleCopy = async () => {
+    await Clipboard.setStringAsync(id);
+  }
 
   useEffect(() => {
     if (id && !roomUsers?.[id]?.includes(socket?.id)) {
@@ -66,10 +87,10 @@ const ChatPage = () => {
     }
   }, [typing, messages]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const thisRoomMessages = messages.filter((msgs) => msgs.roomId == id);
     setThisMessages(thisRoomMessages);
-  },[messages])
+  }, [messages])
 
   return (
     <View className="bg-primary h-full gap-x-2">
