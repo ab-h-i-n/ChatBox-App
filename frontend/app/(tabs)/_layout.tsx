@@ -4,6 +4,7 @@ import { Tabs } from "expo-router";
 import Header from "../../components/common/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Icons } from "@/constants/Icons";
+import CreateRoomModal from "@/components/myrooms/CreateRoomModal";
 
 type TabIconProps = {
   name: string;
@@ -32,49 +33,53 @@ const TabIcon = ({ name, icon, color }: TabIconProps) => {
 
 const TabsLayout = () => {
   return (
-    <SafeAreaView style={{ height: "100%", backgroundColor: "#334756" }}>
-      <Header />
-      <Tabs
-        screenOptions={{
-          tabBarShowLabel: false,
-          tabBarActiveTintColor: "#ff4c29",
-          tabBarInactiveTintColor: "#082032",
-          tabBarStyle: {
-            backgroundColor: "#334756",
-            height: 80,
-          },
-        }}
-      >
-        <Tabs.Screen
-          name="global-room"
-          options={{
-            title: "Global Room",
-            headerShown: false,
-            tabBarIcon: ({ color }: { color: string }) => (
-              <TabIcon
-                name="Global"
-                icon={Icons.GlobalRoomIcon}
-                color={color}
-              />
-            ),
+    <>
+      <SafeAreaView style={{ height: "100%", backgroundColor: "#334756" }}>
+        <Header />
+        <Tabs
+          screenOptions={{
+            tabBarShowLabel: false,
+            tabBarActiveTintColor: "#ff4c29",
+            tabBarInactiveTintColor: "#082032",
+            tabBarStyle: {
+              backgroundColor: "#334756",
+              height: 80,
+            },
           }}
-        />
-        <Tabs.Screen
-          name="my-rooms"
-          options={{
-            title: "My Rooms",
-            headerShown: false,
-            tabBarIcon: ({ color }: { color: string }) => (
-              <TabIcon
-                name="My Rooms"
-                icon={Icons.MyRoomIcon}
-                color={color}
-              />
-            ),
-          }}
-        />
-      </Tabs>
-    </SafeAreaView>
+        >
+          <Tabs.Screen
+            name="global-room"
+            options={{
+              title: "Global Room",
+              headerShown: false,
+              tabBarIcon: ({ color }: { color: string }) => (
+                <TabIcon
+                  name="Global"
+                  icon={Icons.GlobalRoomIcon}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="my-rooms"
+            options={{
+              title: "My Rooms",
+              headerShown: false,
+              tabBarIcon: ({ color }: { color: string }) => (
+                <TabIcon
+                  name="My Rooms"
+                  icon={Icons.MyRoomIcon}
+                  color={color}
+                />
+              ),
+            }}
+          />
+        </Tabs>
+      </SafeAreaView>
+      <CreateRoomModal />
+    </>
+
   );
 };
 

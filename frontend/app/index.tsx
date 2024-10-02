@@ -1,7 +1,7 @@
 import Button from "@/components/common/Button";
 import InputBox from "@/components/common/InputBox";
 import { AuthContext } from "@/context/AuthContext";
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 

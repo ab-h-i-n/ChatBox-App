@@ -1,4 +1,4 @@
-import { AuthContext, AuthContextTypes } from "@/context/AuthContext";
+import { AuthContext } from "@/context/AuthContext";
 import { GlobalContextProvider } from "@/context/GlobalContext";
 import { Stack, useRouter } from "expo-router";
 import { useContext, useEffect } from "react";
