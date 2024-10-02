@@ -29,5 +29,5 @@ app.get("/ping", (req, res) => {
 });
 
 async function Ping() {
-  await fetch(`http://localhost:4000/ping`);
+  await fetch(`${process.env.URL}/ping`);
 }
